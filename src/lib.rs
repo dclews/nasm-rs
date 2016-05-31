@@ -9,6 +9,7 @@ pub enum BuildType {
 }
 
 fn x86_triple(os: &str) -> &'static str {
+    println!("OS is: {}", os);
     match os {
         "linux" => "-felf32",
         "darwin" => "-fmachos32",
@@ -22,6 +23,7 @@ fn x86_triple(os: &str) -> &'static str {
 }
 
 fn x86_64_triple(os: &str) -> &'static str {
+    println!("OS is: {}", os);
     match os {
         "linux" => "-felf64",
         "darwin" => "-felf64",
@@ -35,8 +37,8 @@ fn x86_64_triple(os: &str) -> &'static str {
 }
 
 fn parse_triple(trip: &str) -> &'static str {
-
     println!("Triple is {}", trip);
+
     let parts: Vec<&str> = match trip.rfind("/") {
         Some(i) => {
             let parts = trip[(i+1)..].split("-").collect();
@@ -50,8 +52,7 @@ fn parse_triple(trip: &str) -> &'static str {
     // or ARCH-VENDOR-OS
     // we don't care about environ so doesn't matter if triple doesn't have it
     if parts.len() < 3 {
-        println!("Target triple is only {} long whereas it should be 3 parts long. arch-vendor-os", parts.len());
-        return ""
+        println!("[Warning] Target triple is only {} long whereas it should be 3 parts long. arch-vendor-os", parts.len());
     }
 
     match parts[0] {
