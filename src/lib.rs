@@ -8,7 +8,7 @@ pub enum BuildType {
     SHARED,
 }
 
-fn x86_triple(os: &str) -> &'static str {
+fn format_x86(os: &str) -> &'static str {
     println!("OS is: {}", os);
     match os {
         "linux" => "-felf32",
@@ -22,7 +22,7 @@ fn x86_triple(os: &str) -> &'static str {
     }
 }
 
-fn x86_64_triple(os: &str) -> &'static str {
+fn format_x86_64(os: &str) -> &'static str {
     println!("OS is: {}", os);
     match os {
         "linux" => "-felf64",
@@ -50,14 +50,15 @@ fn parse_triple(trip: &str) -> &'static str {
 
     // ARCH-VENDOR-OS-ENVIRONMENT
     // or ARCH-VENDOR-OS
-    // we don't care about environ so doesn't matter if triple doesn't have it
-    if parts.len() < 3 {
-        println!("[Warning] Target triple is only {} long whereas it should be 3 parts long. arch-vendor-os", parts.len());
-    }
+    // we don't care about environ so doesn't matter if triple doesn't have it.
+    let os = match parts.len() < 3 {
+        true => "none",
+        false => parts[2],
+    };
 
     match parts[0] {
-        "x86_64" => x86_64_triple(&parts[2]),
-        "x86" => x86_triple(&parts[2]),
+        "x86_64" => format_x86_64(os),
+        "x86" => format_x86(os),
         _ => ""
     }
 }
