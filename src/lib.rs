@@ -68,7 +68,7 @@ fn parse_triple(trip: &str) -> &'static str {
 /// ```no_run
 /// nasm::compile_library("libfoo.a", &["foo.s", "bar.s"]);
 /// ```
-pub fn compile_library(libname: &str, files: &[&str], build_type: BuildType) {
+pub fn compile_library(libname: &str, files: &[&str], build_type: BuildType, defines: &[&str]) {
     let target = env::var("TARGET").unwrap();
 
     let cargo_manifest_dir = env::var("CARGO_MANIFEST_DIR").unwrap();
@@ -78,6 +78,11 @@ pub fn compile_library(libname: &str, files: &[&str], build_type: BuildType) {
 
     if env::var_os("DEBUG").is_some() {
         args.push("-g");
+    }
+
+    for def in defines {
+        args.push("-D");
+        args.push(def);
     }
 
     let src = Path::new(&cargo_manifest_dir);
