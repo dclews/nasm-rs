@@ -11,10 +11,10 @@ pub enum BuildType {
 fn format_x86(os: &str) -> &'static str {
     println!("OS is: {}", os);
     match os {
-        "linux" => "-felf32 -Fdwarf -g",
+        "linux" => "-felf32",
         "darwin" => "-fmachos32",
         "windows" => "-fwin32",
-        "none" => "-felf32 -Fdwarf -g",
+        "none" => "-felf32",
          _ => {
             println!("OS not specified. Falling back to a.out format. If you aren't using an OS specify it as \"none\" in the target triple");
             ""
@@ -25,10 +25,10 @@ fn format_x86(os: &str) -> &'static str {
 fn format_x86_64(os: &str) -> &'static str {
     println!("OS is: {}", os);
     match os {
-        "linux" => "-felf64 -Fdwarf -g",
-        "darwin" => "-felf64 -Fdwarf -g",
+        "linux" => "-felf64",
+        "darwin" => "-felf64",
         "windows" => "-fwin64",
-        "none" => "-felf64 -Fdwarf -g",
+        "none" => "-felf64",
         _ => {
             println!("OS not specified. Falling back to a.out format. If you aren't using an OS specify it as \"none\" in the target triple");
             ""
